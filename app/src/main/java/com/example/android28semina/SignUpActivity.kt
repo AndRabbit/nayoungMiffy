@@ -63,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
         binding.signUpButton.setOnClickListener {
             if (binding.nameEdit.text.isNotEmpty() && binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
                 val intent = Intent()
-                intent.putExtra("id", binding.nameEdit.text.toString())
+                intent.putExtra("name", binding.nameEdit.text.toString())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
 

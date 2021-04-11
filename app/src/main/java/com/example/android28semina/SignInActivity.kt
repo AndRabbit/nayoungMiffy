@@ -72,7 +72,6 @@ class SignInActivity : AppCompatActivity() {
 
         }
         binding.signUpText.setOnClickListener {
-            //startActivity(Intent(this,SignUpActivity::class.java))
             signUpActivityLauncher.launch(Intent(this, SignUpActivity::class.java))
 
         }
@@ -82,7 +81,8 @@ class SignInActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         // 데이터를 받아서 할 일이 들어가는 칸! 과제에선 여기까지만 만들어주세요
-        if (it.resultCode == Activity.RESULT_OK) {
+        if (it.resultCode == RESULT_OK) {
+            Toast.makeText(this,it.data?.getStringExtra("name"),Toast.LENGTH_LONG).show()
 
         }
 
