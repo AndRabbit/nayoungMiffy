@@ -3,6 +3,8 @@ spot 28th android semina :fire: :computer:
 
 ### 안드로이드 2차과제 [2020.04.25]
 
+![image](https://user-images.githubusercontent.com/48551119/115991100-da257c80-a601-11eb-99bb-6df08e4e386a.png)
+
 **1. HomeActivity**
 
      private fun setAdapter(){
@@ -53,4 +55,6 @@ spot 28th android semina :fire: :computer:
           }
 
 ➡️ more 버튼 클릭시 fragment가 있는 userinfoactivity로 이동 
+![image](https://user-images.githubusercontent.com/48551119/115991125-04773a00-a602-11eb-9c53-8955b2abf088.png)
+
 
