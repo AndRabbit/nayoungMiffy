@@ -78,6 +78,8 @@ class SignInActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
                         if(response.isSuccessful){
                             Log.d("soptlogin","로그인 성공")
+                            Toast.makeText(this@SignInActivity,
+                                response.body()?.data?.user_nickname,Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
                         }
 

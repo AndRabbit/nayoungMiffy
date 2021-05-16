@@ -1,20 +1,11 @@
 # androidSemina28
 spot 28th android semina :fire: :computer:
 
-### 안드로이드 1차과제 [2020.04.11]
+### 안드로이드 3차과제 [2020.05.16]
 
-**1. 화면전환 후 데이터를 가져온 로직 정리**
+**1. PostMan 테스트 사진**
 
-    private val signUpActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        // 데이터를 받아서 할 일이 들어가는 칸! 과제에선 여기까지만 만들어주세요
-        if (it.resultCode == RESULT_OK) {
-            Toast.makeText(this,it.data?.getStringExtra("name"),Toast.LENGTH_LONG).show()
-
-        }
-
-    }
+/Users/annayoung/Downloads/IMG_0875.PNG
     
 
 - registerForAcivityResult 함수를 이용해서 callback을 등록해 준다.

@@ -81,6 +81,7 @@ class SignUpActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<ResponseSignUp>, response: Response<ResponseSignUp>) {
                         if(response.isSuccessful){
                             Log.d("soptsignup","회원가입 성공")
+                            Toast.makeText(this@SignUpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
                             val intent = Intent()
                             intent.putExtra("name", binding.nameEdit.text.toString())
                             setResult(Activity.RESULT_OK, intent)
