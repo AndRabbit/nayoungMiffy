@@ -8,7 +8,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.android28semina.api.ServiceCreator
+import com.example.android28semina.data.RequestLogin
+import com.example.android28semina.data.ResponseLogin
 import com.example.android28semina.databinding.ActivitySigninBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignInActivity : AppCompatActivity() {
 
@@ -61,8 +67,28 @@ class SignInActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.signInButton.setOnClickListener {
             if (binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
-                startActivity(Intent(this, HomeActivity::class.java))
-                Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+
+                //signInViewModel.requestCheckSignIn()
+                val loginBody=  RequestLogin(email= binding.editTextTextPersonName.text.toString(),password = binding.editTextTextPassword.text.toString())
+
+                val call: Call<ResponseLogin> = ServiceCreator.soptService.postLogin(loginBody)
+
+                call.enqueue(object :
+                    Callback<ResponseLogin> {
+                    override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+                        if(response.isSuccessful){
+                            Log.d("soptlogin","로그인 성공")
+                            startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+
+                    }
+                })
+
+                //Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
 
             } else {
 
