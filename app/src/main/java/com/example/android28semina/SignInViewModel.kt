@@ -1,5 +1,6 @@
 package com.example.android28semina
 
+import android.app.Application
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -26,9 +27,37 @@ class SignInViewModel : ViewModel() {
      val inputEmail = MutableLiveData<String>()
    // val inputEmail: LiveData<String> = _inputEmail
 
+    val loginCheckValue = MutableLiveData<Boolean>()
+
+    fun loginCheck(){
+        if(inputEmail.value?.isBlank()==true || inputPassword.value?.isBlank()==true){
+            loginCheckValue.value=false
+        }else{
+            requestCheckSignIn()
+        }
+
+    }
+
 
     fun requestCheckSignIn() {
+        val loginBody=  RequestLogin(email= inputEmail.value!!,password = inputPassword.value!!)
 
+        val call: Call<ResponseLogin> = ServiceCreator.soptService.postLogin(loginBody)
+
+        call.enqueue(object :
+            Callback<ResponseLogin> {
+            override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+                if(response.isSuccessful){
+                    Log.d("soptlogin","로그인 성공")
+                    loginCheckValue.value=true
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+
+            }
+        })
 
 
 

@@ -35,7 +35,7 @@ class SignUpActivity : AppCompatActivity() {
         binding.vm = signUpViewModel
         binding.lifecycleOwner = this
 
-
+        observeData()
         setListeners()
     }
 
@@ -65,40 +65,26 @@ class SignUpActivity : AppCompatActivity() {
         Log.d("stop", this.toString())
     }
 
+    private fun observeData(){
+        signUpViewModel.signUpComplete.observe(this){
+            if(it==true){
+                Toast.makeText(this@SignUpActivity,signUpViewModel.inputId.value,Toast.LENGTH_SHORT).show()
+                val intent = Intent()
+                intent.putExtra("name", binding.nameEdit.text.toString())
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+            else{
+                Toast.makeText(this, "빈 칸이 있는지 확인해 주세요!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun setListeners() {
 
         binding.signUpButton.setOnClickListener {
-            if (binding.nameEdit.text.isNotEmpty() && binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
-
-                val signUpBody=  RequestSignUp(email= binding.editTextTextPersonName.text.toString(),password = binding.editTextTextPassword.text.toString(),
-                sex = "0",phone = "010-2060-6725",birth = "1999-08-17",nickname = binding.nameEdit.text.toString())
-
-                val call: Call<ResponseSignUp> = ServiceCreator.soptService.postSignUp(signUpBody)
-
-                call.enqueue(object :
-                    Callback<ResponseSignUp> {
-                    override fun onResponse(call: Call<ResponseSignUp>, response: Response<ResponseSignUp>) {
-                        if(response.isSuccessful){
-                            Log.d("soptsignup","회원가입 성공")
-                            Toast.makeText(this@SignUpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
-                            val intent = Intent()
-                            intent.putExtra("name", binding.nameEdit.text.toString())
-                            setResult(Activity.RESULT_OK, intent)
-                            finish()
-                        }
-
-                    }
-
-                    override fun onFailure(call: Call<ResponseSignUp>, t: Throwable) {
-
-                    }
-                })
-
-
-            } else {
-                Toast.makeText(this, "빈 칸이 있는지 확인해 주세요!", Toast.LENGTH_SHORT).show()
-            }
+            signUpViewModel.signUpCheck()
         }
     }
 }
