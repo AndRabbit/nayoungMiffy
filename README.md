@@ -5,40 +5,67 @@ spot 28th android semina :fire: :computer:
 
 **1. PostMan 테스트 사진**
 
-/Users/annayoung/Downloads/IMG_0875.PNG
+   ![image](https://user-images.githubusercontent.com/48551119/118397996-9c13f980-b691-11eb-9cca-edf7ff33f58a.png)
+
+    - 로그인 테스트 사진 
+
+   ![image](https://user-images.githubusercontent.com/48551119/118398014-b221ba00-b691-11eb-855a-72a49a20159e.png)
     
+    - 회원가입 테스트 사진
 
-- registerForAcivityResult 함수를 이용해서 callback을 등록해 준다.
-- 결과를 받기 위해 startActivityForResult함수를 넣어 준다.
-- it 로 받아온 값을 어떻게 이용할지 정의 해준다.
+**2. 회원가입 완료 + 로그인 완료 구현 gif**
 
-      binding.signUpText.setOnClickListener {
-            signUpActivityLauncher.launch(Intent(this, SignUpActivity::class.java))
+    interface SoptService {
+        @POST("/login/signin")
+            fun postLogin(
+                @Body body: RequestLogin
+            ):Call<ResponseLogin>
 
-        }
-        
-정의해준 함수를 launch함수로 시작시켜 준다.
+        @POST("/login/signup")
+        fun postSignUp(
+            @Body body: RequestSignUp
+        ):Call<ResponseSignUp>
+
+    }
 
 
-      binding.signUpButton.setOnClickListener {
-            if (binding.nameEdit.text.isNotEmpty() && binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
-                val intent = Intent()
-                intent.putExtra("name", binding.nameEdit.text.toString())
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+- 인터페이스 구현 
+![image](https://user-images.githubusercontent.com/48551119/118398719-dd59d880-b694-11eb-8e31-d3e5e89a191a.png)
 
-            } else {
-                Toast.makeText(this, "빈 칸이 있는지 확인해 주세요!", Toast.LENGTH_SHORT).show()
-            }
-        }`
+- 로그인 완료 토스트 메시지 띄우기
 
-setResult함수에 result_ok 와 data를 넣어서 넘겨준다.
+      val loginBody=  RequestLogin(email= binding.editTextTextPersonName.text.toString(),password = binding.editTextTextPassword.text.toString())
+                           val call: Call<ResponseLogin> = ServiceCreator.soptService.postLogin(loginBody)
 
-**2. 생명주기를 호출하고 액티비티를 호출하면**
+                           call.enqueue(object :
+                               Callback<ResponseLogin> {
+                               override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+                                   if(response.isSuccessful){
+                                       Log.d("soptlogin","로그인 성공")
+                                       Toast.makeText(this@SignInActivity,
+                                           response.body()?.data?.user_nickname,Toast.LENGTH_SHORT).show()
+                                       startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+                                   }
 
-![image](https://user-images.githubusercontent.com/48551119/114300856-14b8f080-9afd-11eb-81e8-a50ea28339f4.png)
+                               }
 
-**3. 배운점**
+                               override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
 
-예전에는 startactivityforresult 함수를 이용해서 액티비티간의 데이터를 전달해 주었는데 이번에 세미나를 통해서 resultforactivityresult를 이용해서 데이터를 주고받는 사실을 배우게 되었다. 또한 findviewId를 이용하여 view를 참조하는 대신에 viewbinding을 써서 id 값을 참조하는 방법을 새로 배웠는데 앞으로는 더 나아가 databinding을 이용해서 코드를 짜보고 싶다는 생각이 들었다 . 또한 이번 과제에서는 나름 mvvm 패턴을 이용해서 코드를 짜보려고 노력했는데 이게 맞는건지 잘 모르겠다...ㅎㅎ ACC의 viewmodel 과 mvvm의 viewmodel이 다르다는 얘기를 들었는데 정확히 둘이 어떻게 다른지 더 알고 싶다.
+                               }
+                       })
+
+![image](https://user-images.githubusercontent.com/48551119/118398732-ec408b00-b694-11eb-852d-e3f6c27de677.png)
+
+- 회원가입 완료 토스트 메시지 띄우기
+
+![image](https://user-images.githubusercontent.com/48551119/118398749-fcf10100-b694-11eb-993b-da0f3d2d7c46.png)
+
+
+**3. 과제를 통해 배운 내용 & 개발자로 성장한 내용**
+  회원가입과 로그인 하는 장면을 gif 로 올리기 위해서 직접 동영상으로 찍어 준비했는데 용량이 너무 커서 100mb 이상이 되면 리드미에 올릴 수 없다는 사실을 알게 되었다.... (그래서 toast 로 올림 )
+ 싱글톤 패턴을 학교 전공시간에 이론으로만 배웠었는데 그때는 이게 어떻게 사용 되는지 감이 하나도 안왔었는데 이번 기회에 직접 실습에 적용해 보니 배운 점이 많았다. 
+
+
+
+
 
