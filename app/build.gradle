@@ -63,4 +63,13 @@ dependencies {
     implementation 'org.koin:koin-android:2.2.2'
     //LifecycleOwner 들에서 scope 생성-삭제를 자동화하는 기능을 제공
     implementation 'org.koin:koin-androidx-scope:2.0.0-rc-2'
+
+    // Retrofit 라이브러리
+    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+
+// Gson 변환기 라이브러리
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
+
+// Scalars 변환기 라이브러리
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.4'
 }

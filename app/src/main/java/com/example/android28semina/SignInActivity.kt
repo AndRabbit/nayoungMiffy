@@ -8,7 +8,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.android28semina.api.ServiceCreator
+import com.example.android28semina.data.RequestLogin
+import com.example.android28semina.data.ResponseLogin
 import com.example.android28semina.databinding.ActivitySigninBinding
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignInActivity : AppCompatActivity() {
 
@@ -27,6 +34,7 @@ class SignInActivity : AppCompatActivity() {
         binding.vm = signInViewModel
         binding.lifecycleOwner = this
         setListeners()
+        observeData()
 
 
     }
@@ -57,17 +65,24 @@ class SignInActivity : AppCompatActivity() {
         Log.d("stop", this.toString())
     }
 
+    private fun observeData(){
+        signInViewModel.loginCheckValue.observe(this){
+            if(it==true){
+                Toast.makeText(this@SignInActivity,
+                    "login success",Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+            }
+            else{
+                Toast.makeText(this, "아이디/비밀번호를 확인해주세요!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun setListeners() {
         binding.signInButton.setOnClickListener {
-            if (binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
-                startActivity(Intent(this, HomeActivity::class.java))
-                Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
-
-            } else {
-
-                Toast.makeText(this, "아이디/비밀번호를 확인해주세요!", Toast.LENGTH_SHORT).show()
-            }
+            signInViewModel.loginCheck()
+                //Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
 
         }
         binding.signUpText.setOnClickListener {

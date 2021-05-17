@@ -1,13 +1,43 @@
 package com.example.android28semina
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.android28semina.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
+
+    lateinit var binding:ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+
+        binding= ActivityHomeBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+        setListeners()
+        setAdapter()
+    }
+
+
+
+    private fun setListeners(){
+        binding.userInfoBtn.setOnClickListener {
+            startActivity(Intent(this,UserInfoActivity::class.java))
+        }
+
+    }
+
+    private fun setAdapter(){
+        val repositoryListAdapter = RepositoryListAdapter()
+
+        binding.repositoryRecyclerView.adapter = repositoryListAdapter
+
+        repositoryListAdapter.repositoryList.addAll(
+            listOf(Repository("android 28 semina sopt", "28기 솝트 안드로이드 파트 정규 세미나 활동을 기록하기 위한 레포지터리이다.","kotlin"),
+                Repository("healingfeeling", "덕성여자대학교 4학년 졸업작품 활동을 기록하기 위한 레포지터리이다.","java"))
+        )
+        repositoryListAdapter.notifyDataSetChanged()
     }
 
     override fun onResume() {

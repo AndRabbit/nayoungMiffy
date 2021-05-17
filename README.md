@@ -1,57 +1,71 @@
 # androidSemina28
 spot 28th android semina :fire: :computer:
 
-### 안드로이드 2차과제 [2020.04.25]
+### 안드로이드 3차과제 [2020.05.16]
 
-**1. HomeActivity**
+**1. PostMan 테스트 사진**
 
-     private fun setAdapter(){
-        val repositoryListAdapter = RepositoryListAdapter()
+   ![image](https://user-images.githubusercontent.com/48551119/118397996-9c13f980-b691-11eb-9cca-edf7ff33f58a.png)
 
-        binding.repositoryRecyclerView.adapter = repositoryListAdapter
+    - 로그인 테스트 사진 
 
-        repositoryListAdapter.repositoryList.addAll(
-            listOf(Repository("android 28 semina sopt", "28기 솝트 안드로이드 파트 정규 세미나 활동을 기록하기 위한 레포지터리이다.","kotlin"),
-                Repository("healingfeeling", "덕성여자대학교 4학년 졸업작품 활동을 기록하기 위한 레포지터리이다.","java"))
-        )
-        repositoryListAdapter.notifyDataSetChanged()
+   ![image](https://user-images.githubusercontent.com/48551119/118398014-b221ba00-b691-11eb-855a-72a49a20159e.png)
+    
+    - 회원가입 테스트 사진
+
+**2. 회원가입 완료 + 로그인 완료 구현 gif**
+
+    interface SoptService {
+        @POST("/login/signin")
+            fun postLogin(
+                @Body body: RequestLogin
+            ):Call<ResponseLogin>
+
+        @POST("/login/signup")
+        fun postSignUp(
+            @Body body: RequestSignUp
+        ):Call<ResponseSignUp>
+
     }
 
-➡️ recyclerapdater 세팅해주기 
 
- <TextView
-        android:id="@+id/repoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="레포지토리이름"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+- 인터페이스 구현 
+![image](https://user-images.githubusercontent.com/48551119/118398719-dd59d880-b694-11eb-8e31-d3e5e89a191a.png)
+
+- 로그인 완료 토스트 메시지 띄우기
+
+      val loginBody=  RequestLogin(email= binding.editTextTextPersonName.text.toString(),password = binding.editTextTextPassword.text.toString())
+                           val call: Call<ResponseLogin> = ServiceCreator.soptService.postLogin(loginBody)
+
+                           call.enqueue(object :
+                               Callback<ResponseLogin> {
+                               override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+                                   if(response.isSuccessful){
+                                       Log.d("soptlogin","로그인 성공")
+                                       Toast.makeText(this@SignInActivity,
+                                           response.body()?.data?.user_nickname,Toast.LENGTH_SHORT).show()
+                                       startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+                                   }
+
+                               }
+
+                               override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+
+                               }
+                       })
+
+![image](https://user-images.githubusercontent.com/48551119/118398732-ec408b00-b694-11eb-852d-e3f6c27de677.png)
+
+- 회원가입 완료 토스트 메시지 띄우기
+
+![image](https://user-images.githubusercontent.com/48551119/118398749-fcf10100-b694-11eb-993b-da0f3d2d7c46.png)
 
 
-    <TextView
-        android:id="@+id/repoDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:text="레포지토리설명"
-        app:layout_constraintStart_toStartOf="@+id/repoTitle"
-        app:layout_constraintTop_toBottomOf="@+id/repoTitle" />
-➡️ 레포지터리 이름과 설명이 긴 경우 maxlines 와 ellipsize를 사용해 ... 으로 표시 
+**3. 과제를 통해 배운 내용 & 개발자로 성장한 내용**
+  회원가입과 로그인 하는 장면을 gif 로 올리기 위해서 직접 동영상으로 찍어 준비했는데 용량이 너무 커서 100mb 이상이 되면 리드미에 올릴 수 없다는 사실을 알게 되었다.... (그래서 toast 로 올림 )
+ 싱글톤 패턴을 학교 전공시간에 이론으로만 배웠었는데 그때는 이게 어떻게 사용 되는지 감이 하나도 안왔었는데 이번 기회에 직접 실습에 적용해 보니 배운 점이 많았다. 
 
 
 
-      private fun setListeners(){
-              binding.userInfoBtn.setOnClickListener {
-                  startActivity(Intent(this,UserInfoActivity::class.java))
-              }
-      
-          }
-
-➡️ more 버튼 클릭시 fragment가 있는 userinfoactivity로 이동 
 
 

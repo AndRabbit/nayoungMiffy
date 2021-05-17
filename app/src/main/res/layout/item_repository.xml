@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/repoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="레포지토리이름"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/repoDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="레포지토리설명"
+        app:layout_constraintStart_toStartOf="@+id/repoTitle"
+        app:layout_constraintTop_toBottomOf="@+id/repoTitle" />
+
+    <TextView
+        android:id="@+id/repoLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="언어"
+        app:layout_constraintStart_toStartOf="@+id/repoDetail"
+        app:layout_constraintTop_toBottomOf="@+id/repoDetail" />
+</androidx.constraintlayout.widget.ConstraintLayout>

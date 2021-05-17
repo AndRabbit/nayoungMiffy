@@ -39,7 +39,7 @@
             android:ems="10"
             android:hint="ID를 입력해 주세요."
             android:inputType="textPersonName"
-            android:text="@{vm.inputEmail}"
+            android:text="@={vm.inputEmail}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/IdTextView"
             app:layout_constraintTop_toBottomOf="@+id/IdTextView" />
@@ -67,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="@{vm.inputPassword}"
+            android:text="@={vm.inputPassword}"
             android:hint="비밀번호를 입력해주세요"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"

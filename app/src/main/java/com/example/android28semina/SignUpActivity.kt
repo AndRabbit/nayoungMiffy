@@ -8,7 +8,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.android28semina.api.ServiceCreator
+import com.example.android28semina.data.RequestLogin
+import com.example.android28semina.data.RequestSignUp
+import com.example.android28semina.data.ResponseLogin
+import com.example.android28semina.data.ResponseSignUp
 import com.example.android28semina.databinding.ActivitySignUpBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -27,7 +35,7 @@ class SignUpActivity : AppCompatActivity() {
         binding.vm = signUpViewModel
         binding.lifecycleOwner = this
 
-
+        observeData()
         setListeners()
     }
 
@@ -57,19 +65,26 @@ class SignUpActivity : AppCompatActivity() {
         Log.d("stop", this.toString())
     }
 
-
-    private fun setListeners() {
-
-        binding.signUpButton.setOnClickListener {
-            if (binding.nameEdit.text.isNotEmpty() && binding.editTextTextPersonName.text.isNotEmpty() && binding.editTextTextPassword.text.isNotEmpty()) {
+    private fun observeData(){
+        signUpViewModel.signUpComplete.observe(this){
+            if(it==true){
+                Toast.makeText(this@SignUpActivity,signUpViewModel.inputId.value,Toast.LENGTH_SHORT).show()
                 val intent = Intent()
                 intent.putExtra("name", binding.nameEdit.text.toString())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-
-            } else {
+            }
+            else{
                 Toast.makeText(this, "빈 칸이 있는지 확인해 주세요!", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+
+    private fun setListeners() {
+
+        binding.signUpButton.setOnClickListener {
+            signUpViewModel.signUpCheck()
         }
     }
 }
