@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android28semina.api.ServiceCreator
+import com.example.android28semina.common.MySharedPreferences
 import com.example.android28semina.data.RequestLogin
 import com.example.android28semina.data.ResponseLogin
 import com.google.gson.Gson
@@ -50,6 +51,7 @@ class SignInViewModel : ViewModel() {
                 if(response.isSuccessful){
                     Log.d("soptlogin","로그인 성공")
                     loginCheckValue.value=true
+
                 }
 
             }

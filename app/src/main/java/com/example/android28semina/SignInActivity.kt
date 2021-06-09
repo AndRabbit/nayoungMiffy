@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.android28semina.api.ServiceCreator
+import com.example.android28semina.common.MySharedPreferences
 import com.example.android28semina.data.RequestLogin
 import com.example.android28semina.data.ResponseLogin
 import com.example.android28semina.databinding.ActivitySigninBinding
@@ -33,8 +34,22 @@ class SignInActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signin)
         binding.vm = signInViewModel
         binding.lifecycleOwner = this
-        setListeners()
-        observeData()
+
+
+
+
+        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+        if(MySharedPreferences.getUserId(this).isNullOrBlank()
+            || MySharedPreferences.getUserPass(this).isNullOrBlank()) {
+            setListeners()
+            observeData()
+        }
+        else { // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 
     }
@@ -68,6 +83,8 @@ class SignInActivity : AppCompatActivity() {
     private fun observeData(){
         signInViewModel.loginCheckValue.observe(this){
             if(it==true){
+                MySharedPreferences.setUserId(this, signInViewModel.inputEmail.value!!)
+                MySharedPreferences.setUserPass(this, signInViewModel.inputPassword.value!!)
                 Toast.makeText(this@SignInActivity,
                     "login success",Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this@SignInActivity, HomeActivity::class.java))

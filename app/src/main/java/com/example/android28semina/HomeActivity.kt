@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.android28semina.common.MySharedPreferences
 import com.example.android28semina.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -14,7 +15,11 @@ class HomeActivity : AppCompatActivity() {
 
         binding= ActivityHomeBinding.inflate(layoutInflater)
 
+
+
         setContentView(binding.root)
+
+
         setListeners()
         setAdapter()
     }
@@ -24,6 +29,12 @@ class HomeActivity : AppCompatActivity() {
     private fun setListeners(){
         binding.userInfoBtn.setOnClickListener {
             startActivity(Intent(this,UserInfoActivity::class.java))
+        }
+        binding.logOutBtn.setOnClickListener {
+            MySharedPreferences.clearUser(this)
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }
